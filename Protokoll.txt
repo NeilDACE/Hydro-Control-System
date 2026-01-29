@@ -1,0 +1,29 @@
+Projekt-Logbuch: Smart-Garden IoT
+
+
+##Datum: 29. Januar 2026 Status: Projekt-Initialisierung & Hardware-Beschaffung
+
+Heutige Fortschritte
+Projektstart: Offizieller Startschuss für das autarke IoT-Bewässerungssystem. Die Konzeption der Architektur (Raspberry Pi -> LTE -> Hetzner-Server) steht.
+
+Beschaffung: Die Komponenten für den ersten "Schreibtisch-Prototypen" wurden bestellt (Raspberry Pi 4, MCP3008 AD-Wandler, kapazitive Feuchtigkeitssensoren und Relais-Module).
+
+Networking: Ein potenzieller Mitstreiter mit fundierter Python-Erfahrung wurde angefragt. Teamarbeit im Backend-Bereich würde die Entwicklung der Steuerungslogik massiv beschleunigen.
+
+Wichtige Erkenntnisse & Experten-Input
+Durch den Austausch mit Kollegen wurden bereits zwei kritische Punkte für die spätere Outdoor-Phase identifiziert:
+
+Thermische Herausforderung: Da der Pi in einem wasserdichten Gehäuse (IP65) im Garten stehen wird, ist eine separate Kühlung (passiv/aktiv) zwingend erforderlich, um Thermal Throttling im Sommer zu vermeiden.
+
+Speichermedium: Für den produktiven Einsatz wird auf eine Industrie-SD-Karte (High Endurance) umgestellt. Diese bietet deutlich mehr Schreib-/Lesezyklen, was bei kontinuierlichem Logging der Sensordaten essenziell ist, um Systemausfälle durch korrupte Dateisysteme zu verhindern.
+
+Bezugsquelle: Für zukünftige Spezialteile wurde mir berrybase.de als zuverlässiger Shop empfohlen.
+
+Nächste Schritte
+Einrichten der Projekt-Struktur auf dem Laptop (Git-Repository).
+
+Vorbereitung des API-Endpoints auf der Homepage, um erste Test-Daten zu empfangen.
+
+
+
+
