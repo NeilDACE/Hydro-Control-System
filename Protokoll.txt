@@ -1,4 +1,4 @@
-Projekt-Logbuch: Smart-Garden IoT
+Projekt-Logbuch: Hydro-Control-System
 
 
 ##Datum: 29. Januar 2026 Status: Projekt-Initialisierung & Hardware-Beschaffung
