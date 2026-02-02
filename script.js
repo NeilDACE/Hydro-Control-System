@@ -1,15 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
 import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-database.js";
-
-const firebaseConfig = {
-    apiKey: "[REDACTED]",
-    authDomain: "hydro-control-system.firebaseapp.com",
-    databaseURL: "https://hydro-control-system-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "hydro-control-system",
-    storageBucket: "hydro-control-system.firebasestorage.app",
-    messagingSenderId: "164636476567",
-    appId: "1:164636476567:web:30b179d8c9ece94c5015d2"
-  };
+import firebaseConfig from '/config.js';
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
