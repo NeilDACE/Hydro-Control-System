@@ -24,6 +24,24 @@ Einrichten der Projekt-Struktur auf dem Laptop (Git-Repository).
 
 Vorbereitung des API-Endpoints auf der Homepage, um erste Test-Daten zu empfangen.
 
+##Datum: 30. Januar 2026
+Status: Strategie-Update & Markt-Potenzial-Analyse
+
+Heutige Fortschritte
+Technologie-Pivot: Evaluierung von Meshtastic (LoRa-Funk) als alternative Kommunikationsschicht zum LTE-Modul. Die Nutzung des lizenzfreien 868-MHz-Bands würde den autarken Betrieb ohne laufende Kosten (SIM-Gebühren) ermöglichen.
+
+Architektur-Erweiterung: Das System wird so geplant, dass es modular zwischen LTE und LoRa-Mesh wechseln kann. Dies erhöht die Flexibilität für verschiedene Einsatzorte (Garten vs. abgelegenes Feld).
+
+Wirtschaftliche Einordnung: Identifizierung des Marktwertes. Das Projekt wird nun als "Full-Stack"-Referenz (Sensorik -> Mesh-Netzwerk -> Cloud-Backend) dokumentiert, was besonders im Bereich Smart Farming / Industrie 4.0 eine hohe Relevanz besitzt.
+
+Wichtige Erkenntnisse & Experten-Input
+Funk-Vorteile: LoRa bietet eine deutlich höhere Durchdringung von Hindernissen (Bäume, Mauern) bei massiv geringerem Energiebedarf als LTE – ein entscheidender Faktor für den geplanten Solar-Betrieb.
+
+Skalierbarkeit: Durch den Verzicht auf Provider-Abhängigkeiten ist das System theoretisch unbegrenzt skalierbar und bietet einen echten USP (Alleinstellungsmerkmal) für Gebiete ohne Mobilfunkabdeckung.
+
+Fokus-Management: Trotz der neuen Ideen bleibt die Priorität zuerst auf dem stabilen Prototypen mit dem Pi 4, um die analoge Messstrecke (MCP3008) zu kalibrieren.
+
+
 
 
 
