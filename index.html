@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hydro-Control-System | Dashboard</title>
+    <link href="./dist/output.css" rel="stylesheet" />
+  </head>
+  <body class="bg-slate-900 text-slate-100 min-h-screen font-sans">
+    <nav class="border-b border-slate-800 p-4">
+      <div class="container mx-auto flex justify-between items-center">
+        <h1
+          class="text-xl font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent"
+        >
+          HYDRO-CONTROL v1.0
+        </h1>
+        <div class="flex items-center gap-2 text-sm text-slate-400">
+          <span
+            class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"
+          ></span>
+          System Live
+        </div>
+      </div>
+    </nav>
+    <main class="container mx-auto p-6">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-slate-800 border border-slate-700 p-6 rounded-2xl">
+          <p
+            class="text-slate-400 text-sm uppercase tracking-wider font-semibold"
+          >
+            Soil Moisture
+          </p>
+          <div class="mt-4 flex items-baseline gap-2">
+            <span id="moisture-val" class="text-6xl font-black text-emerald-400"
+              >--</span
+            >
+            <span class="text-xl text-slate-500">%</span>
+          </div>
+          <div
+            class="mt-6 w-full bg-slate-700 h-2 rounded-full overflow-hidden"
+          >
+            <div
+              id="moisture-bar"
+              class="bg-emerald-500 h-full w-[0%] transition-all duration-1000"
+            ></div>
+          </div>
+        </div>
+        <div
+          class="bg-slate-800 border border-slate-700 p-6 rounded-2xl flex flex-col justify-between"
+        >
+          <div>
+            <p
+              class="text-slate-400 text-sm uppercase tracking-wider font-semibold"
+            >
+              Irrigation Valve
+            </p>
+            <p
+              id="valve-status"
+              class="mt-4 text-2xl font-bold text-slate-200 uppercase"
+            >
+              Connecting...
+            </p>
+          </div>
+          <button
+            onclick="toggleValve()"
+            class="mt-4 w-full bg-slate-700 hover:bg-emerald-600 text-white font-bold py-3 rounded-xl transition-colors active:scale-95"
+          >
+            Open Valve Manually
+          </button>
+        </div>
+      </div>
+    </main>
+    <script type="module" src="script.js"></script>
+  </body>
+</html>
