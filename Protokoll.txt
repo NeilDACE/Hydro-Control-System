@@ -24,6 +24,10 @@ Einrichten der Projekt-Struktur auf dem Laptop (Git-Repository).
 
 Vorbereitung des API-Endpoints auf der Homepage, um erste Test-Daten zu empfangen.
 
+
+
+
+
 ##Datum: 30. Januar 2026
 Status: Strategie-Update & Markt-Potenzial-Analyse
 
@@ -41,7 +45,10 @@ Skalierbarkeit: Durch den Verzicht auf Provider-Abhängigkeiten ist das System t
 
 Fokus-Management: Trotz der neuen Ideen bleibt die Priorität zuerst auf dem stabilen Prototypen mit dem Pi 4, um die analoge Messstrecke (MCP3008) zu kalibrieren.
 
-##Datum: 02. Februar 2026
+
+
+
+##Datum: 01. Februar 2026
 Status: Frontend-Initialisierung & Backend-Integration
 
 Heutige Fortschritte
@@ -60,6 +67,10 @@ Ready for Integration: Die bestehende Datenbank-Verbindung dient als Brücke. So
 Modularität im Frontend: Durch Tailwind CSS bleibt das UI flexibel genug, um später komplexe Dashboards für die Smart-Farming-Analyse ohne großen Refactoring-Aufwand zu integrieren.
 
 Fokus-Management: Die Priorität verlagert sich nun kurzzeitig zurück auf die Hardware, um die Schnittstelle zwischen dem Python-Skript (Sensorik) und der Firebase-Schnittstelle (Node.js/JS) zu schließen.
+
+
+
+
 
 Datum: 02. Februar 2026
 
@@ -106,6 +117,71 @@ Syntax Matters: Ich habe gelernt, dass Python extrem strikte Einrückungen und Z
 Realtime-Power: Dank Firebase sehe ich meine Änderungen auf dem Dashboard in Millisekunden, ohne die Seite neu laden zu müssen.
 
 Netzwerk-Check: Ein funktionierender DNS-Eintrag in der resolv.conf ist die absolute Grundvoraussetzung, damit mein Pi mit der Außenwelt kommunizieren kann.
+
+
+##🛠 Erledigte Aufgaben
+Umgebung: Virtuelle Umgebung (venv) erfolgreich eingerichtet und aktiviert.
+
+Netzwerk: DNS-Problem (8.8.8.8) gelöst – der Pi erreicht jetzt Google & Firebase.
+
+Hardware-Integration: SPI-Schnittstelle aktiviert und Kommunikation mit dem MCP3008 etabliert.
+
+Datenfluss: Live-Werte werden vom analogen Feuchtigkeitssensor gelesen und an die Firebase Realtime Database gesendet.
+
+Kalibrierung: Das Mapping-Prinzip wurde verstanden und die read_moisture-Funktion auf deine individuellen Sensorwerte vorbereitet.
+
+📊 Sensor-Kalibrierung (Deine Werte)
+Trockenwert (Luft): [Hier deinen gemessenen Wert eintragen, z.B. 820]
+
+Nasswert (Wasser): [Hier deinen gemessenen Wert eintragen, z.B. 310]
+
+Status: Die Formel rechnet jetzt Rohwerte in 0–100 % um.
+
+⚠️ Wichtige Befehle zum Merken
+Start: source venv/bin/activate -> python hydro_main.py
+
+Stopp: Strg + C (ggf. mehrfach)
+
+Beenden: deactivate
+
+Feierabend: sudo shutdown -h now
+
+
+
+
+
+##Datum: 3. Februar 2026 Status: Planungsphase abgeschlossen / Hardware-Bestellung getätigt
+
+Heute erledigt: Finalisierung des Setups & Hardware-Order
+Nach intensiver Abwägung zwischen technischer Komplexität und Ausfallsicherheit wurde heute das finale Hardware-Paket geschnürt und bestellt. Der Fokus lag darauf, ein autarkes, robustes System zu schaffen, das sowohl lokal (Mesh) als auch global (LTE) kommuniziert.
+
+1. Kommunikation & Vernetzung (LoRa & LTE)
+Bestellung: 2x SX1262 LoRa HAT (868 MHz) für den Raspberry Pi.
+
+Gedanke: Ein Pi dient als Gateway im Haus, der andere als Controller im Garten. Durch das LoRa-Mesh-Netzwerk stelle ich eine stabile Verbindung über große Distanz sicher, ohne auf schwaches WLAN angewiesen zu sein.
+
+LTE-Backbone: Ergänzend wurde der ZTE MF833V Stick bestellt, um den Garten-Pi für Fernwartung und Live-Daten direkt ans Internet anzubinden.
+
+2. Wasser-Management & Steuerung (Schwerkraft-Prinzip)
+Magnetventil: U.S. Solid 1/2" (12V DC, Zinklegierung, stromlos geschlossen).
+
+Strategische Entscheidung: Ich habe mich gegen eine permanente Hochleistungspumpe und für das Schwerkraft-Prinzip entschieden. Das Ventil fungiert als zuverlässiger "Türsteher". Das spart massiv Energie und schont die Autobatterie.
+
+Bewässerungs-Kit: Drip-Schläuche und T-Stücke für eine sanfte Tröpfchenbewässerung wurden passend dazu gewählt.
+
+Test-Komponenten: Zusätzlich 3 günstige Pumpen für Laborversuche daheim, um verschiedene Szenarien (z. B. Düngerbeischmischung) zu simulieren.
+
+3. Elektronik & Sicherheit (Schaltschrank-Logik)
+Steuerkreis: 5 Optokoppler-Module (3.3V kompatibel). Damit trenne ich den empfindlichen Raspberry Pi galvanisch vom 12V-Lastkreis des Ventils.
+
+Schutzmaßnahmen: 1N4007 Freilaufdioden wurden bestellt. Diese sind essenziell, um Induktionsspitzen beim Abschalten des Ventils abzufangen und die Relais-Kontakte vor Lichtbögen zu schützen.
+
+Persönliches Fazit des Tages
+Das Projekt ist heute von einer "Bastel-Idee" zu einem professionellen Industrial-IoT-Konzept gereift. Besonders stolz bin ich auf die Entscheidung für die Schwerkraft-Lösung – sie ist technisch eleganter und reduziert die Fehleranfälligkeit der Mechanik. Mit der Autobatterie und dem Solar-Setup wird das System ein echtes "Set-and-forget"-Monster.
+
+Nächste Schritte: * 3D-Modell für das Gehäuse am PC entwerfen (Halterungen für LoRa HAT und LTE-Stick integrieren).
+
+Test-Setup auf dem Breadboard aufbauen, sobald die Dioden eintreffen.
 
 
 

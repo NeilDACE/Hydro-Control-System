@@ -55,23 +55,23 @@ onValue(systemRef, (snapshot) => {
     const data = snapshot.val();    
     if (data) {
         updateMoisture(data.moisture);
-        updateValveStatus(data.valve_open);
+        updateValveStatus(data.control.current_valve_state);
     }
 });
 
 /**
- * Opens the irrigation valve for 30 seconds via Firebase.
+ * Opens the irrigation valve for 5 seconds via Firebase.
  * After the time expires, the valve is automatically closed again.
  * @function toggleValve
  * @global
  * @returns {void}
  */
 window.toggleValve = function() {
-    const valveRef = ref(db, 'system/valve_open');
+    const valveRef = ref(db, 'system/control/target_valve_state');
     console.log("Opening valve via Firebase...");
     set(valveRef, true);
     setTimeout(() => {
         set(valveRef, false);
         console.log("Closing valve...");
-    }, 30000); 
+    }, 5000); 
 };

@@ -4,6 +4,7 @@ node_modules/
 # Build files
 dist/
 out/
+circuit_diagrams/
 
 # Operating system specific
 .DS_Store
@@ -12,3 +13,4 @@ Thumbs.db
 # Sensitive data
 .env
 config.js
+
