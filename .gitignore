@@ -13,4 +13,5 @@ Thumbs.db
 # Sensitive data
 .env
 config.js
+Notizen.docx
 

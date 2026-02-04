@@ -186,4 +186,34 @@ Test-Setup auf dem Breadboard aufbauen, sobald die Dioden eintreffen.
 
 
 
+##Datum: 4. Februar 2026 Status: Meilenstein "Full-Stack-Communication" erreicht
+
+1. UI & Software-Architektur
+UI/UX Design: Erste Skizzen für das Dashboard-Layout erstellt (Fokus auf Feuchtigkeitsanzeige und Ventilsteuerung).
+
+Datenbank-Struktur: Finalisierung des JSON-Objekts in der Firebase Realtime Database (system/control/target_valve_state etc.).
+
+Frontend-Entwicklung: JavaScript-Logik angepasst, um Echtzeit-Daten zu empfangen und Schaltbefehle per set() an Firebase zu senden.
+
+Backend-Logik (Python): Skript auf dem Raspberry Pi erweitert. Implementierung eines Listeners, der auf Datenbank-Änderungen reagiert und die GPIOs verzögerungsfrei schaltet.
+
+2. Hardware & Netzwerk
+Hardware-Test: Erfolgreiche Ansteuerung eines Optokopplers via Raspberry Pi. Simulation der Ventilsteuerung durch eine Test-LED, die direkt über das Web-Dashboard ausgelöst wurde.
+
+Netzwerk-Konfiguration: Manuelle Festlegung der DNS-Adressen auf dem Pi, um eine stabile Namensauflösung für die Firebase-API zu garantieren.
+
+Konnektivität (LTE): Vorbereitung des ZTE-LTE-Sticks für den autarken Gartenbetrieb.
+
+Beschaffung: Evaluierung verschiedener SIM-Tarife. Entscheidung für Congstar (Telekom-Netz) aufgrund der Netzstabilität im Außenbereich. Kosten-Nutzen-Sieg: 5 Monate Laufzeit für effektiv 5 € Investition durch Startguthaben-Bonus.
+
+3. Nächste Schritte
+Aktivierung der Congstar SIM-Karte und Konfiguration des ZTE-Sticks am PC (APN-Setup).
+
+Finaler Einbau der Hardware in das Gehäuse inkl. Freilaufdiode für das Magnetventil.
+
+Optimierung des Python-Skripts zur Reduzierung des Datenverbrauchs (Delta-Übertragung).
+
+
+
+
 
