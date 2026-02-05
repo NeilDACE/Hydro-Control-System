@@ -1,0 +1,55 @@
+body {
+    margin: 0;
+    color: rgb(0, 0, 0);
+}
+
+nav {
+    display: flex;
+    gap: 20px;
+}
+
+button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: white;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+}
+
+header {
+    height: 10vh;
+    background-color: #4CAF50;
+    display: flex;
+    justify-content: center;
+}
+
+main {
+    background: linear-gradient(135deg, #f0fdf4 0%, #b7f8ce 50%, #7dffab 100%);
+    min-height: 85vh;
+    background-color: aqua;
+    display: flex;
+    justify-content: center;
+}
+
+section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+}
+
+footer {
+    height: 5vh;
+    flex-grow: 1;
+    background-color: #4CAF50;
+    display: flex;
+    justify-content: center;
+}
+
+footer a {
+    color: rgb(0, 0, 0);
+    text-decoration: none;
+}

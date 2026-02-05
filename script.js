@@ -75,3 +75,65 @@ window.toggleValve = function() {
         console.log("Closing valve...");
     }, 5000); 
 };
+
+/**
+ * Updates the current time display every second.
+ */
+function updateTime() {
+    const timeEl = document.getElementById('current-time');
+    if (timeEl) {
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        timeEl.textContent = `${hours}:${minutes}:${seconds}`;
+    }
+}
+
+updateTime();
+setInterval(updateTime, 1000);
+
+/**
+ * Initializes all LED indicators on page load.
+ * Sets default states for connection and status LEDs.
+ */
+function initializeLEDs() {
+    document.getElementById('led-lte')?.classList.add('led-green');
+    document.getElementById('led-lora')?.classList.add('led-red');
+    document.getElementById('led-connection')?.classList.add('led-green');
+    document.getElementById('led-program')?.classList.add('led-red');
+}
+
+initializeLEDs();
+
+/**
+ * Updates the moisture level for a specific sector.
+ * Changes bar color to red if moisture is below 40%.
+ * @param {number} sectorNumber - The sector number (1-6).
+ * @param {number} moistureLevel - The moisture percentage (0-100).
+ */
+function updateSectorMoisture(sectorNumber, moistureLevel) {
+    const bar = document.getElementById(`moisture-bar-${sectorNumber}`);
+    const value = document.getElementById(`moisture-value-${sectorNumber}`);
+    
+    if (bar && value) {
+        bar.style.width = `${moistureLevel}%`;
+        bar.setAttribute('data-moisture', moistureLevel);
+        
+        if (moistureLevel < 40) {
+            bar.setAttribute('data-moisture-level', 'low');
+        } else {
+            bar.setAttribute('data-moisture-level', 'normal');
+        }
+        
+        value.textContent = `${moistureLevel}%`;
+    }
+}
+
+function initializeSectorMoisture() {
+    for (let i = 1; i <= 6; i++) {
+        updateSectorMoisture(i, 87);
+    }
+}
+
+initializeSectorMoisture();

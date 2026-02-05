@@ -4,131 +4,200 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hydro-Control-System</title>
-    <link href="./dist/output.css" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="styles/standard.css" />
   </head>
-  <body class="bg-slate-900 text-slate-100 min-h-screen font-sans">
+  <body>
     <header>
-      <nav class="border-b border-slate-800 p-4">
-        <div class="container mx-auto flex justify-between items-center">
-          <h1
-            class="text-xl font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent"
-          >
-            HYDRO-CONTROL-SYSTEM v1.0 | Dashboard
-          </h1>
-        </div>
-        <button>
-          <a
-            href="index.html"
-            class="text-slate-300 hover:text-emerald-400 transition-colors duration-300"
-            >Dashboard</a
-          >
-        </button>
-        <button>
-          <a
-            href="#"
-            class="text-slate-300 hover:text-emerald-400 transition-colors duration-300"
-            >Change Connection</a
-          >
-        </button>
-        <button>
-          <a
-            href="#"
-            class="text-slate-300 hover:text-emerald-400 transition-colors duration-300"
-            >Field Terminal</a
-          >
-        </button>
+      <div class="header-container">
         <div>
-          <p>Time</p>
+          <h1>HYDRO-CONTROL-SYSTEM v1.0 | Dashboard</h1>
         </div>
-      </nav>
-    </header>
-    <main class="container mx-auto p-6">
-      <section>
-        <div>
-          <div>
-            <label
-              for="program-select"
-              class="block mb-2 text-sm font-medium text-slate-300"
-              >Select Program:</label
-            >
-            <select
-              id="program-select"
-              class="bg-slate-800 border border-slate-700 text-slate-300 text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5"
-            >
-              <option value="manually-watering">manually</option>
-              <option value="automatically-watering">automatically</option>
-              <option value="according-to-schedule-watering">
-                According to schedule
-              </option>
-            </select>
-          </div>
-          <div id="program-content"></div>
+        <div class="nav-container">
           <nav>
-            <button>Stop</button>
-            <button>Start</button>
+            <button class="btn-primary">
+              <a href="index.html">Dashboard</a>
+            </button>
+            <button class="btn-primary">
+              <a href="#">Change Connection</a>
+            </button>
+            <button class="btn-primary">
+              <a href="#">Field Terminal</a>
+            </button>
           </nav>
-          <div id="feedback-container"></div>
-        </div>
-      </section>
-      <section>
-        <div>
-          <h2>Status Display</h2>
-          <div>
-            <h3>Connection Status</h3>
-            <div class="led-box">
-              <div class="led-green"></div>
-              <p>LTE</p>
-            </div>
-            <div class="led-box">
-              <div class="led-green"></div>
-              <p>LoRa (Mesh)</p>
-            </div>
-          </div>
-          <div>
-            <h3>Connection Field System</h3>
-            <div class="led-box">
-              <div class="led-green"></div>
-              <p id="connection-feedback">connection OK</p>
-            </div>
-            <div class="led-box">
-              <div class="led-green"></div>
-              <p id="program-status-feedback">program is running</p>
-            </div>
+          <div class="time-container">
+            <p>Time</p>
+            <p id="current-time">Time</p>
           </div>
         </div>
-        <div>
-          <h2>Soil moisture of the sectors</h2>
-          <div>
-            <div class="sector-box">
-              <p>Sector 1</p>
+      </div>
+    </header>
+    <main>
+      <div class="main-container">
+        <section>
+          <div class="control-panel-container">
+            <div>
+              <h2>Control Panel</h2>
+              <label for="program-select">Select Program:</label>
+              <select id="program-select">
+                <option value="manually-watering">manually</option>
+                <option value="automatically-watering">automatically</option>
+                <option value="according-to-schedule-watering">
+                  According to schedule
+                </option>
+              </select>
+              <p>
+                Select a program to start watering. You can choose between
+                manually, automatically or according to schedule.
+              </p>
             </div>
-            <div class="sector-box">
-              <p>Sector 2</p>
+            <div id="program-content">
+              <div class="manually-program-container">
+                <h3>Manually</h3>
+                <div>
+                  <input
+                    type="number"
+                    placeholder="0"
+                    id="duration"
+                    name="duration"
+                    min="0"
+                    max="1440"
+                  />
+                  <label for="duration">Duration (minutes)</label>
+                </div>
+                <div>
+                  <input
+                    type="number"
+                    placeholder="0"
+                    id="desired-moisture"
+                    name="desired-moisture"
+                    min="0"
+                    max="100"
+                  />
+                  <label for="desired-moisture">desired moisture (%)</label>
+                </div>
+
+                <p>"0 min" means continuous operation!</p>
+                <p>"0 %" means desired moisture is ignored!</p>
+              </div>
             </div>
-            <div class="sector-box">
-              <p>Sector 3</p>
-            </div>
-            <div class="sector-box">
-              <p>Sector 4</p>
-            </div>
-            <div class="sector-box">
-              <p>Sector 5</p>
-            </div>
-            <div class="sector-box">
-              <p>Sector 6</p>
+            <nav>
+              <button class="btn-danger">Stop</button>
+              <button class="btn-success">Start</button>
+            </nav>
+            <div id="feedback-container"></div>
+          </div>
+        </section>
+        <section>
+          <div class="status-container">
+            <h2>Status Display</h2>
+            <div class="status-content">
+              <div class="connection-status-container">
+                <h3>Connection Status</h3>
+                <div class="led-box">
+                  <div class="led" id="led-lte"></div>
+                  <p>LTE</p>
+                </div>
+                <div class="led-box">
+                  <div class="led" id="led-lora"></div>
+                  <p>LoRa (Mesh)</p>
+                </div>
+              </div>
+              <div class="connection-field-system-container">
+                <h3>Connection Field System</h3>
+                <div class="led-box">
+                  <div class="led" id="led-connection"></div>
+                  <p id="connection-feedback">connection OK</p>
+                </div>
+                <div class="led-box">
+                  <div class="led" id="led-program"></div>
+                  <p id="program-status-feedback">PROGRAM IS RUNNING!</p>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+          <div class="soil-moisture-container">
+            <h2>Soil moisture of the sectors</h2>
+            <div>
+              <div class="sector-box">
+                <p>Sector 1</p>
+                <div class="moisture-bar-container">
+                  <span class="moisture-value" id="moisture-value-1">0%</span>
+                  <div
+                    class="moisture-bar"
+                    id="moisture-bar-1"
+                    data-moisture="0"
+                  ></div>
+                </div>
+              </div>
+              <div class="sector-box">
+                <p>Sector 2</p>
+                <div class="moisture-bar-container">
+                  <span class="moisture-value" id="moisture-value-2">0%</span>
+                  <div
+                    class="moisture-bar"
+                    id="moisture-bar-2"
+                    data-moisture="0"
+                  ></div>
+                </div>
+              </div>
+              <div class="sector-box">
+                <p>Sector 3</p>
+                <div class="moisture-bar-container">
+                  <span class="moisture-value" id="moisture-value-3">0%</span>
+                  <div
+                    class="moisture-bar"
+                    id="moisture-bar-3"
+                    data-moisture="0"
+                  ></div>
+                </div>
+              </div>
+              <div class="sector-box">
+                <p>Sector 4</p>
+                <div class="moisture-bar-container">
+                  <span class="moisture-value" id="moisture-value-4">0%</span>
+                  <div
+                    class="moisture-bar"
+                    id="moisture-bar-4"
+                    data-moisture="0"
+                  ></div>
+                </div>
+              </div>
+              <div class="sector-box">
+                <p>Sector 5</p>
+                <div class="moisture-bar-container">
+                  <span class="moisture-value" id="moisture-value-5">0%</span>
+                  <div
+                    class="moisture-bar"
+                    id="moisture-bar-5"
+                    data-moisture="0"
+                  ></div>
+                </div>
+              </div>
+              <div class="sector-box">
+                <p>Sector 6</p>
+                <div class="moisture-bar-container">
+                  <span class="moisture-value" id="moisture-value-6">0%</span>
+                  <div
+                    class="moisture-bar"
+                    id="moisture-bar-6"
+                    data-moisture="0"
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
     </main>
     <footer>
-      <div class="container mx-auto p-4 border-t border-slate-800 text-center text-slate-500 text-sm">
-        &copy; 2026 Hydro-Control-System. All rights reserved.
-      </div>
-      <p>Developed by Nil Vollhardt</p>
-      <div>
-        <a href="#">Privacy Policy</a>
-        <a href="#">Legal Notice</a>
+      <div class="footer-container">
+        <div>&copy; 2026 Hydro-Control-System. All rights reserved.</div>
+        <p>Developed by Nil Vollhardt</p>
+        <nav>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Legal Notice</a>
+        </nav>
       </div>
     </footer>
     <script type="module" src="script.js"></script>

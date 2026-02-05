@@ -1,15 +1,12 @@
 {
   "devDependencies": {
-    "jsdoc": "^4.0.5",
-    "tailwindcss": "^4.1.18"
+    "jsdoc": "^4.0.5"
   },
   "name": "hydro-control-system",
   "version": "1.0.0",
   "description": "",
   "main": "script.js",
   "scripts": {
-    "dev": "npx @tailwindcss/cli -i style.css -o dist/output.css --watch",
-    "build": "npx @tailwindcss/cli -i style.css -o dist/output.css --minify",
     "docs": "jsdoc script.js"
   },
   "repository": {
