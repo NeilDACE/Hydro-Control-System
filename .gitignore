@@ -5,6 +5,7 @@ node_modules/
 dist/
 out/
 circuit_diagrams/
+index copy.html
 
 # Operating system specific
 .DS_Store

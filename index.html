@@ -3,73 +3,134 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hydro-Control-System | Dashboard</title>
+    <title>Hydro-Control-System</title>
     <link href="./dist/output.css" rel="stylesheet" />
   </head>
   <body class="bg-slate-900 text-slate-100 min-h-screen font-sans">
-    <nav class="border-b border-slate-800 p-4">
-      <div class="container mx-auto flex justify-between items-center">
-        <h1
-          class="text-xl font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent"
-        >
-          HYDRO-CONTROL v1.0
-        </h1>
-        <div class="flex items-center gap-2 text-sm text-slate-400">
-          <span
-            class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"
-          ></span>
-          System Live
+    <header>
+      <nav class="border-b border-slate-800 p-4">
+        <div class="container mx-auto flex justify-between items-center">
+          <h1
+            class="text-xl font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent"
+          >
+            HYDRO-CONTROL-SYSTEM v1.0 | Dashboard
+          </h1>
         </div>
-      </div>
-    </nav>
+        <button>
+          <a
+            href="index.html"
+            class="text-slate-300 hover:text-emerald-400 transition-colors duration-300"
+            >Dashboard</a
+          >
+        </button>
+        <button>
+          <a
+            href="#"
+            class="text-slate-300 hover:text-emerald-400 transition-colors duration-300"
+            >Change Connection</a
+          >
+        </button>
+        <button>
+          <a
+            href="#"
+            class="text-slate-300 hover:text-emerald-400 transition-colors duration-300"
+            >Field Terminal</a
+          >
+        </button>
+        <div>
+          <p>Time</p>
+        </div>
+      </nav>
+    </header>
     <main class="container mx-auto p-6">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="bg-slate-800 border border-slate-700 p-6 rounded-2xl">
-          <p
-            class="text-slate-400 text-sm uppercase tracking-wider font-semibold"
-          >
-            Soil Moisture
-          </p>
-          <div class="mt-4 flex items-baseline gap-2">
-            <span id="moisture-val" class="text-6xl font-black text-emerald-400"
-              >--</span
-            >
-            <span class="text-xl text-slate-500">%</span>
-          </div>
-          <div
-            class="mt-6 w-full bg-slate-700 h-2 rounded-full overflow-hidden"
-          >
-            <div
-              id="moisture-bar"
-              class="bg-emerald-500 h-full w-[0%] transition-all duration-1000"
-            ></div>
-          </div>
-        </div>
-        <div
-          class="bg-slate-800 border border-slate-700 p-6 rounded-2xl flex flex-col justify-between"
-        >
+      <section>
+        <div>
           <div>
-            <p
-              class="text-slate-400 text-sm uppercase tracking-wider font-semibold"
+            <label
+              for="program-select"
+              class="block mb-2 text-sm font-medium text-slate-300"
+              >Select Program:</label
             >
-              Irrigation Valve
-            </p>
-            <p
-              id="valve-status"
-              class="mt-4 text-2xl font-bold text-slate-200 uppercase"
+            <select
+              id="program-select"
+              class="bg-slate-800 border border-slate-700 text-slate-300 text-sm rounded-lg focus:ring-emerald-500 focus:border-emerald-500 block w-full p-2.5"
             >
-              Connecting...
-            </p>
+              <option value="manually-watering">manually</option>
+              <option value="automatically-watering">automatically</option>
+              <option value="according-to-schedule-watering">
+                According to schedule
+              </option>
+            </select>
           </div>
-          <button
-            onclick="toggleValve()"
-            class="mt-4 w-full bg-slate-700 hover:bg-emerald-600 text-white font-bold py-3 rounded-xl transition-colors active:scale-95"
-          >
-            Open Valve Manually
-          </button>
+          <div id="program-content"></div>
+          <nav>
+            <button>Stop</button>
+            <button>Start</button>
+          </nav>
+          <div id="feedback-container"></div>
         </div>
-      </div>
+      </section>
+      <section>
+        <div>
+          <h2>Status Display</h2>
+          <div>
+            <h3>Connection Status</h3>
+            <div class="led-box">
+              <div class="led-green"></div>
+              <p>LTE</p>
+            </div>
+            <div class="led-box">
+              <div class="led-green"></div>
+              <p>LoRa (Mesh)</p>
+            </div>
+          </div>
+          <div>
+            <h3>Connection Field System</h3>
+            <div class="led-box">
+              <div class="led-green"></div>
+              <p id="connection-feedback">connection OK</p>
+            </div>
+            <div class="led-box">
+              <div class="led-green"></div>
+              <p id="program-status-feedback">program is running</p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h2>Soil moisture of the sectors</h2>
+          <div>
+            <div class="sector-box">
+              <p>Sector 1</p>
+            </div>
+            <div class="sector-box">
+              <p>Sector 2</p>
+            </div>
+            <div class="sector-box">
+              <p>Sector 3</p>
+            </div>
+            <div class="sector-box">
+              <p>Sector 4</p>
+            </div>
+            <div class="sector-box">
+              <p>Sector 5</p>
+            </div>
+            <div class="sector-box">
+              <p>Sector 6</p>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
+    <footer>
+      <div class="container mx-auto p-4 border-t border-slate-800 text-center text-slate-500 text-sm">
+        &copy; 2026 Hydro-Control-System. All rights reserved.
+      </div>
+      <p>Developed by Nil Vollhardt</p>
+      <div>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Legal Notice</a>
+      </div>
+    </footer>
     <script type="module" src="script.js"></script>
   </body>
 </html>
