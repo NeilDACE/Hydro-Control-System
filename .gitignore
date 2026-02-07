@@ -4,8 +4,10 @@ node_modules/
 # Build files
 dist/
 out/
+Documents/
 circuit_diagrams/
 index copy.html
+hydro_test.py
 
 # Operating system specific
 .DS_Store
