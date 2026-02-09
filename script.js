@@ -3,160 +3,184 @@ import {
   getDatabase,
   ref,
   onValue,
-  set,
+  update,
 } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-database.js";
 import firebaseConfig from "/config.js";
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-const moistureValEl = document.getElementById("moisture-val");
-const moistureBarEl = document.getElementById("moisture-bar");
-const valveStatusEl = document.getElementById("valve-status");
-
-const systemRef = ref(db, "system");
-
-/**
- * Updates the moisture value display and progress bar.
- * Changes the bar color to red when moisture falls below 30%.
- * @param {number} moisture - The current moisture value in percent.
- */
-function updateMoisture(moisture) {
-  if (moistureValEl) moistureValEl.innerText = moisture;
-  if (moistureBarEl) {
-    moistureBarEl.style.width = `${moisture}%`;
-    if (moisture < 30) {
-      moistureBarEl.classList.replace("bg-emerald-500", "bg-red-500");
-    } else {
-      moistureBarEl.classList.replace("bg-red-500", "bg-emerald-500");
-    }
-  }
-}
-
-/**
- * Updates the irrigation valve status in the UI.
- * Displays "OPEN (Irrigating)" in green or "Closed" in gray.
- * @param {boolean} isOpen - True if the valve is open, false otherwise.
- */
-function updateValveStatus(isOpen) {
-  if (!valveStatusEl) return;
-  if (isOpen) {
-    valveStatusEl.innerText = "OPEN (Irrigating)";
-    valveStatusEl.classList.add("text-emerald-400");
-    valveStatusEl.classList.remove("text-slate-200");
-  } else {
-    valveStatusEl.innerText = "Closed";
-    valveStatusEl.classList.add("text-slate-200");
-    valveStatusEl.classList.remove("text-emerald-400");
-  }
-}
-
-/**
- * Monitors the 'system' reference in the Firebase Database in real-time.
- * Updates the UI (bar, percentage value, valve status) on every change.
- * @param {Object} snapshot - The current dataset from the Firebase Database.
- */
-onValue(systemRef, (snapshot) => {
-  const data = snapshot.val();
-  if (data) {
-    updateMoisture(data.moisture);
-    updateValveStatus(data.control.current_valve_state);
-  }
-});
-
-/**
- * Opens the irrigation valve for 5 seconds via Firebase.
- * After the time expires, the valve is automatically closed again.
- * @function toggleValve
- * @global
- * @returns {void}
- */
-window.toggleValve = function () {
-  const valveRef = ref(db, "system/control/target_valve_state");
-  console.log("Opening valve via Firebase...");
-  set(valveRef, true);
-  setTimeout(() => {
-    set(valveRef, false);
-    console.log("Closing valve...");
-  }, 5000);
-};
-
 /**
  * Updates the current time display every second.
+ * Formats the time as HH:MM:SS in 24h format.
  */
 function updateTime() {
-  const timeEl = document.getElementById("current-time");
-  if (timeEl) {
-    const now = new Date();
-    const hours = String(now.getHours()).padStart(2, "0");
-    const minutes = String(now.getMinutes()).padStart(2, "0");
-    const seconds = String(now.getSeconds()).padStart(2, "0");
-    timeEl.textContent = `${hours}:${minutes}:${seconds}`;
-  }
+  const el = document.getElementById("current-time");
+  if (!el) return;
+  const now = new Date();
+  const pad = (n) => String(n).padStart(2, "0");
+  const time = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+  el.textContent = time;
 }
-
-updateTime();
-setInterval(updateTime, 1000);
 
 /**
  * Initializes all LED indicators on page load.
- * Sets default states for connection and status LEDs.
+ * Sets default states for LTE and LoRa status LEDs.
  */
 function initializeLEDs() {
   document.getElementById("led-lte")?.classList.add("led-green");
   document.getElementById("led-lora")?.classList.add("led-red");
-  document.getElementById("led-connection")?.classList.add("led-green");
-  document.getElementById("led-program")?.classList.add("led-red");
 }
-
-initializeLEDs();
 
 /**
  * Updates the moisture level for a specific sector.
- * Changes bar color to red if moisture is below 40%.
  * @param {number} sectorNumber - The sector number (1-6).
  * @param {number} moistureLevel - The moisture percentage (0-100).
  */
 function updateSectorMoisture(sectorNumber, moistureLevel) {
   const bar = document.getElementById(`moisture-bar-${sectorNumber}`);
-  const value = document.getElementById(`moisture-value-${sectorNumber}`);
-
-  if (bar && value) {
-    bar.style.width = `${moistureLevel}%`;
-    bar.setAttribute("data-moisture", moistureLevel);
-
-    if (moistureLevel < 40) {
-      bar.setAttribute("data-moisture-level", "low");
-    } else {
-      bar.setAttribute("data-moisture-level", "normal");
-    }
-
-    value.textContent = `${moistureLevel}%`;
-  }
+  const val = document.getElementById(`moisture-value-${sectorNumber}`);
+  if (!bar || !val) return;
+  bar.style.width = `${moistureLevel}%`;
+  bar.setAttribute(
+    "data-moisture-level",
+    moistureLevel < 40 ? "low" : "normal",
+  );
+  val.textContent = `${moistureLevel}%`;
 }
 
-function initializeSectorMoisture() {
-  for (let i = 1; i <= 6; i++) {
-    updateSectorMoisture(i, 87);
-  }
-}
-
-initializeSectorMoisture();
-
-function selectProgramMode() {
-  const modeSelect = document.getElementById("program-select");
-  const programContent = document.getElementById("program-content");
-  programContent.innerHTML = "";
-  if (!modeSelect) return;
-  modeSelect.addEventListener("change", () => {
-    const selectedMode = modeSelect.value;
-    if (selectedMode === "manually") {
-      programContent.innerHTML = programManuallyTemplate();
-    } else if (selectedMode === "automatically") {
-      programContent.innerHTML = programAutomaticTemplate();
-    } else {
-      programContent.innerHTML = "";
-    }
+/**
+ * Monitors moisture data from Firebase in real-time.
+ * Maps sensor keys to UI sector indices.
+ */
+function startMoistureMonitoring() {
+  const sectorsRef = ref(db, "system/status/sectors");
+  onValue(sectorsRef, (snapshot) => {
+    const data = snapshot.val();
+    const map = { s1: 1, s2: 2, s3: 3, s4: 4, s5: 5, s6: 6 };
+    if (!data) return;
+    Object.entries(map).forEach(([key, idx]) => {
+      const m = data[key]?.m;
+      if (typeof m === "number") updateSectorMoisture(idx, Math.round(m));
+    });
   });
 }
-window.selectProgramMode = selectProgramMode();
+
+/**
+ * Updates the connection status LED based on the last seen timestamp.
+ * @param {HTMLElement} led - The LED DOM element.
+ * @param {string} lastSeen - ISO timestamp of the last heart-beat.
+ */
+function updateLedStatus(led, lastSeen) {
+  if (!lastSeen) return;
+  led.dataset.lastSeen = lastSeen;
+  const diff = (Date.now() - new Date(lastSeen).getTime()) / 1000;
+  const isOnline = diff <= 10;
+  led.classList.toggle("led-green", isOnline);
+  led.classList.toggle("led-red", !isOnline);
+}
+
+/**
+ * Updates the program status LED based on system activity.
+ * @param {HTMLElement} led - The LED DOM element.
+ * @param {boolean} status - Current running state of the program.
+ */
+function updateLedProgramStatus(led, status) {
+  const isActive = status === true;
+  led.dataset.programStatus = status;
+  led.classList.toggle("led-green", isActive);
+  led.classList.toggle("led-red", !isActive);
+}
+
+/**
+ * Starts monitoring connection and program status.
+ * Updates the connection LED every 2 seconds.
+ */
+function startConnectionLedMonitoring() {
+  const lConn = document.getElementById("led-connection");
+  const lProg = document.getElementById("led-program");
+  if (!lConn || !lProg) return;
+  onValue(ref(db, "system/connection/last_seen"), (s) =>
+    updateLedStatus(lConn, s.val()),
+  );
+  onValue(ref(db, "system/control/current_state"), (s) =>
+    updateLedProgramStatus(lProg, s.val()),
+  );
+  setInterval(() => updateLedStatus(lConn, lConn.dataset.lastSeen), 2000);
+}
+
+/**
+ * Triggers the irrigation program based on selected mode.
+ * Writes configuration and target state to Firebase.
+ */
+function startProgram() {
+  const mode = document.getElementById("program-select")?.value;
+  const getV = (id) => Number(document.getElementById(id)?.value);
+  let up = { "system/control/target_state": true };
+  if (mode === "manually") {
+    Object.assign(up, {
+      "system/settings/program_type": "manually",
+      "system/settings/manual_runtime_minutes": getV("duration"),
+    });
+  } else if (mode === "automatically") {
+    Object.assign(up, {
+      "system/settings/program_type": "automatic",
+      "system/settings/thresholds/off_moisture": getV("trigger-turn-off"),
+      "system/settings/thresholds/on_moisture": getV("trigger-turn-on"),
+    });
+  }
+  if (mode) update(ref(db), up).catch(console.error);
+}
+
+/**
+ * Disables all running programs immediately.
+ * Sets the target state to false in the database.
+ */
+function stopAllPrograms() {
+  update(ref(db), { "system/control/target_state": false }).catch(
+    console.error,
+  );
+}
+
+/**
+ * Handles program selection changes and UI template injection.
+ */
+function selectProgramMode() {
+  const sel = document.getElementById("program-select");
+  const cont = document.getElementById("program-content");
+  sel?.addEventListener("change", () => {
+    if (sel.value === "manually") cont.innerHTML = programManuallyTemplate();
+    else if (sel.value === "automatically")
+      cont.innerHTML = programAutomaticTemplate();
+    else cont.innerHTML = "";
+  });
+}
+
+/**
+ * Monitors and displays system feedback messages from Firebase.
+ * Updates the text content of the feedback container.
+ * @param {Object} feedback - The feedback object containing msg and error details.
+ */
+function startFeedbackMonitoring() {
+  const feedbackRef = ref(db, "system/status");
+  const container = document.getElementById("feedbackMessage");
+  if (!container) return;
+
+  onValue(feedbackRef, (snapshot) => {
+    const data = snapshot.val();
+    if (!data) return;
+    container.textContent = data.feedback_msg || data.error_msg;
+    container.className = data.error_code !== 0 ? "error-text" : "success-text";
+  });
+}
+
+// Global execution and window assignment
+updateTime();
+setInterval(updateTime, 1000);
+initializeLEDs();
+startFeedbackMonitoring();
+startMoistureMonitoring();
+startConnectionLedMonitoring();
+selectProgramMode();
+window.startProgram = startProgram;
+window.stopAllPrograms = stopAllPrograms;

@@ -12,20 +12,7 @@ function programManuallyTemplate() {
                   />
                   <label for="duration">Duration (minutes)</label>
                 </div>
-                <div>
-                  <input
-                    type="number"
-                    placeholder="0"
-                    id="desired-moisture"
-                    name="desired-moisture"
-                    min="0"
-                    max="100"
-                  />
-                  <label for="desired-moisture">desired moisture (%)</label>
-                </div>
-
                 <p>"0 min" means continuous operation!</p>
-                <p>"0 %" means desired moisture is ignored!</p>
               </div>`;
 }
 
