@@ -329,3 +329,85 @@ select:focus {
   margin: 0;
   text-align: center;
 }
+
+@media (max-width: 768px) {
+  .header-container,
+  .main-container,
+  .footer-container {
+    padding: 10px 12px;
+  }
+
+  header h1 {
+    font-size: 1.1rem;
+    text-align: center;
+  }
+
+  .nav-container {
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+  }
+
+  nav {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .main-container {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .status-content {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .sector-box {
+    min-width: 0;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .moisture-bar-container {
+    width: 100%;
+  }
+
+  .control-panel-container,
+  .status-container,
+  .soil-moisture-container {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .feedback-container {
+    padding: 12px;
+  }
+
+  button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  header h1 {
+    font-size: 1rem;
+  }
+
+  .control-panel-container {
+    padding: 16px;
+  }
+
+  input[type="number"],
+  select {
+    max-width: 100%;
+  }
+
+  .led {
+    width: 16px;
+    height: 16px;
+  }
+}

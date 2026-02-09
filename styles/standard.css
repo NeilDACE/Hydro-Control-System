@@ -53,3 +53,20 @@ footer a {
     color: rgb(0, 0, 0);
     text-decoration: none;
 }
+
+@media (max-width: 768px) {
+  header {
+    height: auto;
+    padding: 10px 0;
+  }
+
+  main {
+    min-height: auto;
+    padding-bottom: 20px;
+  }
+
+  footer {
+    height: auto;
+    padding: 10px 0;
+  }
+}
