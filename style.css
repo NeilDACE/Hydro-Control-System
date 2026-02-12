@@ -40,6 +40,64 @@
     padding: 0 20px;
 }
 
+.center-screen {
+  display: flex;
+  text-align: center;
+  min-height: 100vh;
+  background-color: #f0f2f5;
+}
+
+.login-main {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.login-main p {
+  font-size: 32px;
+  margin-inline-start: 0;
+  margin-block-end: 20px;
+}
+
+.login-card {
+  background: linear-gradient(135deg, #15803d 0%, #16a34a 50%, #22c55e 100%);
+  color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 350px;
+}
+
+.login-card input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box; 
+}
+
+.login-card button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.login-card button:hover {
+  background-color: #0056b3;
+}
+
+.login-footer {
+  align-items: center;
+  justify-content: space-around;
+}
+
 .btn-primary {
   background: linear-gradient(135deg, #15803d, #16a34a);
 }

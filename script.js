@@ -1,14 +1,32 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
-import {
-  getDatabase,
-  ref,
-  onValue,
-  update,
+import { 
+  getAuth, 
+  onAuthStateChanged 
+} from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
+import { 
+  getDatabase, 
+  ref, 
+  onValue, 
+  update 
 } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-database.js";
 import firebaseConfig from "/config.js";
 
 const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 const db = getDatabase(app);
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // User ist eingeloggt -> Zeige die Daten-Sektion, verstecke Login
+    document.getElementById('loginArea').style.display = 'none';
+    document.getElementById('contentArea').style.display = 'block';
+    loadData(); // Deine Funktion zum Datenladen
+  } else {
+    // User ist ausgeloggt -> Zeige Login, verstecke Daten
+    document.getElementById('loginArea').style.display = 'flex';
+    document.getElementById('contentArea').style.display = 'none';
+  }
+});
 
 /**
  * Updates the current time display every second.

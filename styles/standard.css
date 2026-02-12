@@ -3,6 +3,12 @@ body {
     color: rgb(0, 0, 0);
 }
 
+.body {
+  margin: 0;
+  color: rgb(0, 0, 0);
+  width: 100vw;
+}
+
 nav {
     display: flex;
     gap: 20px;
@@ -21,7 +27,7 @@ button {
 
 header {
     height: 10vh;
-    background-color: #4CAF50;
+    width: 100vw;
     display: flex;
     justify-content: center;
 }
@@ -29,6 +35,7 @@ header {
 main {
     background: linear-gradient(135deg, #f0fdf4 0%, #b7f8ce 50%, #7dffab 100%);
     min-height: 85vh;
+    width: 100vw;
     background-color: aqua;
     display: flex;
     justify-content: center;
@@ -44,6 +51,7 @@ section {
 footer {
     height: 5vh;
     flex-grow: 1;
+    width: 100vw;
     background-color: #4CAF50;
     display: flex;
     justify-content: center;
