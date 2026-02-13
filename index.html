@@ -60,8 +60,8 @@
             <img src="assets/img/logo-only.png" alt="logo" class="logo" />
             <h1>HYDRO-CONTROL-SYSTEM v1.0 | Dashboard</h1>
           </div>
-          <div class="nav-container">
-            <nav>
+          <div id="main-nav" class="nav-container">
+            <nav aria-labelledby="main-nav">
               <button class="btn-primary">
                 <a href="http://100.78.192.77:7681" target="_blank"
                   >Field Terminal</a
@@ -81,9 +81,9 @@
       <main>
         <div class="main-container">
           <section>
-            <div class="control-panel-container">
+            <div class="panel-container">
               <div>
-                <h2>Control Panel</h2>
+                <h2 id="program-controls">Control Panel</h2>
                 <label for="program-select">Select Program:</label>
                 <select id="program-select">
                   <option value="empty">please select</option>
@@ -99,7 +99,7 @@
                 </p>
               </div>
               <div id="program-content"></div>
-              <nav>
+              <nav aria-labelledby="program-controls">
                 <button class="btn-danger" onclick="stopAllPrograms()">
                   Stop
                 </button>
@@ -219,10 +219,10 @@
       <footer>
         <div class="footer-container">
           <div>&copy; 2026 Hydro-Control-System. All rights reserved.</div>
-          <p>Developed by Nil Vollhardt</p>
+          <p role="contentinfo">Developed by Nil Vollhardt</p>
           <nav>
-            <a href="#">Privacy Policy</a>
-            <a href="#">Legal Notice</a>
+            <a href="privacy-police.html">Privacy Policy</a>
+            <a href="legal-notice.html">Legal Notice</a>
           </nav>
         </div>
       </footer>
