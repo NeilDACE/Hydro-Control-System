@@ -6,14 +6,17 @@
     <title>Hydro-Control-System</title>
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="styles/standard.css" />
+    <link rel="shortcut icon" href="assets/favicon/favicon.ico" type="image/x-icon">
   </head>
   <body>
-    <section id="loginArea" class="center-screen">
-      <header><h1>Welcome to your Hydro-Control-System</h1></header>
-
+    <section id="loginArea" class="login-area">
+      <header>
+        <div class="logo-title-container">
+          <img src="assets/img/logo-only.png" alt="logo" class="logo" />
+          <h1>HYDRO-CONTROL-SYSTEM v1.0 | Login</h1>
+        </div>
+      </header>
       <main class="login-main">
-        <p>Your gateway to efficient irrigation management!</p>
-        <p>Please log in to access the dashboard.</p>
         <div class="login-card">
           <h2>Login</h2>
           <input type="email" id="login-email" placeholder="E-Mail" required />
@@ -31,32 +34,30 @@
         </div>
       </main>
       <footer class="login-footer">
-        <div>&copy; 2026 Hydro-Control-System. All rights reserved.</div>
+        <div class="footer-container"><div>&copy; 2026 Hydro-Control-System. All rights reserved.</div>
         <p>Developed by Nil Vollhardt</p>
         <nav>
           <a href="#">Privacy Policy</a>
           <a href="#">Legal Notice</a>
-        </nav>
+        </nav></div>
       </footer>
     </section>
-    <section class="body" id="contentArea">
+    <section id="contentArea" class="content-area">
       <header>
         <div class="header-container">
-          <div>
+          <div class="logo-title-container">
+            <img src="assets/img/logo-only.png" alt="logo" class="logo" />
             <h1>HYDRO-CONTROL-SYSTEM v1.0 | Dashboard</h1>
           </div>
           <div class="nav-container">
             <nav>
               <button class="btn-primary">
-                <a href="index.html">Dashboard</a>
-              </button>
-              <button class="btn-primary">
-                <a href="#">Change Connection</a>
-              </button>
-              <button class="btn-primary">
                 <a href="http://100.78.192.77:7681" target="_blank"
                   >Field Terminal</a
                 >
+              </button>
+              <button class="btn-danger">
+                <a href="#">Logout</a>
               </button>
             </nav>
             <div class="time-container">
@@ -107,25 +108,25 @@
               <h2>Status Display</h2>
               <div class="status-content">
                 <div class="connection-status-container">
-                  <h3>Connection Status</h3>
+                  <h3>Connection Type</h3>
                   <div class="led-box">
                     <div class="led" id="led-lte"></div>
                     <p>LTE</p>
                   </div>
                   <div class="led-box">
                     <div class="led" id="led-lora"></div>
-                    <p>LoRa (Mesh)</p>
+                    <p>LORA (Mesh)</p>
                   </div>
                 </div>
                 <div class="connection-field-system-container">
-                  <h3>Connection Field System</h3>
+                  <h3>Field System</h3>
                   <div class="led-box">
                     <div class="led" id="led-connection"></div>
-                    <p id="connection-feedback">connection OK</p>
+                    <p id="connection-feedback">CONNECTION</p>
                   </div>
                   <div class="led-box">
                     <div class="led" id="led-program"></div>
-                    <p id="program-status-feedback">PROGRAM IS RUNNING!</p>
+                    <p id="program-status-feedback">ACTIVE IRRIGATION</p>
                   </div>
                 </div>
               </div>
