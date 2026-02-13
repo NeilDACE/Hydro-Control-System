@@ -6,40 +6,51 @@
     <title>Hydro-Control-System</title>
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="styles/standard.css" />
-    <link rel="shortcut icon" href="assets/favicon/favicon.ico" type="image/x-icon">
+    <link
+      rel="shortcut icon"
+      href="assets/favicon/favicon.ico"
+      type="image/x-icon"
+    />
   </head>
   <body>
     <section id="loginArea" class="login-area">
       <header>
-        <div class="logo-title-container">
-          <img src="assets/img/logo-only.png" alt="logo" class="logo" />
-          <h1>HYDRO-CONTROL-SYSTEM v1.0 | Login</h1>
+        <div class="header-container">
+          <div class="logo-title-container">
+            <img src="assets/img/logo-only.png" alt="logo" class="logo" />
+            <h1>HYDRO-CONTROL-SYSTEM v1.0 | Login</h1>
+          </div>
+          <div class="nav-container">
+            <div class="time-container">
+              <p>Time</p>
+              <p id="current-time-login">Time</p>
+            </div>
+          </div>
         </div>
       </header>
       <main class="login-main">
         <div class="login-card">
           <h2>Login</h2>
-          <input type="email" id="login-email" placeholder="E-Mail" required />
+          <input type="email" id="emailInput" placeholder="E-Mail" required />
           <input
             type="password"
-            id="login-password"
+            id="passwordInput"
             placeholder="Passwort"
             required
           />
-          <button id="login-btn" class="btn-primary">Anmelden</button>
-          <p
-            id="error-message"
-            style="color: red; font-size: 0.8rem; display: none"
-          ></p>
+          <button id="loginBtn" class="btn-primary">Anmelden</button>
+          <p id="errorMessage" class="feedback"></p>
         </div>
       </main>
       <footer class="login-footer">
-        <div class="footer-container"><div>&copy; 2026 Hydro-Control-System. All rights reserved.</div>
-        <p>Developed by Nil Vollhardt</p>
-        <nav>
-          <a href="#">Privacy Policy</a>
-          <a href="#">Legal Notice</a>
-        </nav></div>
+        <div class="footer-container">
+          <div>&copy; 2026 Hydro-Control-System. All rights reserved.</div>
+          <p>Developed by Nil Vollhardt</p>
+          <nav>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Legal Notice</a>
+          </nav>
+        </div>
       </footer>
     </section>
     <section id="contentArea" class="content-area">
@@ -56,13 +67,13 @@
                   >Field Terminal</a
                 >
               </button>
-              <button class="btn-danger">
+              <button id="logoutBtn" class="btn-danger">
                 <a href="#">Logout</a>
               </button>
             </nav>
             <div class="time-container">
               <p>Time</p>
-              <p id="current-time">Time</p>
+              <p id="current-time-dashboard">Time</p>
             </div>
           </div>
         </div>

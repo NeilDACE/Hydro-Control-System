@@ -1,44 +1,91 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-app.js";
-import { 
-  getAuth, 
-  onAuthStateChanged 
+import {
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword
 } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
-import { 
-  getDatabase, 
-  ref, 
-  onValue, 
-  update 
+import {
+  getDatabase,
+  ref,
+  onValue,
+  update,
 } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-database.js";
 import firebaseConfig from "/config.js";
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getDatabase(app);
+const loginBtn = document.getElementById("loginBtn");
+const emailInput = document.getElementById("emailInput");
+const passwordInput = document.getElementById("passwordInput");
+const loginFeedback = document.getElementById("errorMessage");
+const logoutBtn = document.getElementById("logoutBtn");
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
-    // User ist eingeloggt -> Zeige die Daten-Sektion, verstecke Login
-    document.getElementById('loginArea').style.display = 'none';
-    document.getElementById('contentArea').style.display = 'block';
-    loadData(); // Deine Funktion zum Datenladen
+    document.getElementById("loginArea").style.display = "none";
+    document.getElementById("contentArea").style.display = "flex";
+    loadData();
   } else {
-    // User ist ausgeloggt -> Zeige Login, verstecke Daten
-    document.getElementById('loginArea').style.display = 'flex';
-    document.getElementById('contentArea').style.display = 'none';
+    document.getElementById("loginArea").style.display = "flex";
+    document.getElementById("contentArea").style.display = "none";
   }
 });
+
+loginBtn.addEventListener("click", async () => {
+  const email = emailInput.value;
+  const password = passwordInput.value;
+  if (!email || !password) {
+    loginFeedback.textContent = "Please enter both email and password.";
+    return;
+  }
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+  } catch (error) {
+    loginFeedback.textContent = getLoginErrorMessage(error.code);
+  }
+});
+
+/**
+ * Maps Firebase auth error codes to user-friendly messages.
+ * @param {string} errorCode - Firebase auth error code.
+ * @returns {string} The message to display in the login UI.
+ */
+function getLoginErrorMessage(errorCode) {
+  if (errorCode === "auth/user-not-found") return "User not found.";
+  if (errorCode === "auth/wrong-password") return "Incorrect password.";
+  if (errorCode === "auth/invalid-email") return "Invalid email address.";
+  return "An error occurred.";
+}
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", () => {
+    auth.signOut();
+  });
+}
+
+/**
+ * Starts all realtime data monitors after a successful login.
+ */
+function loadData() {
+    startMoistureMonitoring();
+    startConnectionLedMonitoring();
+    startFeedbackMonitoring();
+    updateTime();
+}
 
 /**
  * Updates the current time display every second.
  * Formats the time as HH:MM:SS in 24h format.
  */
 function updateTime() {
-  const el = document.getElementById("current-time");
-  if (!el) return;
+  const elDashboard = document.getElementById("current-time-dashboard");
+  const elLogin = document.getElementById("current-time-login");
+  if (!elDashboard && !elLogin) return;
   const now = new Date();
   const pad = (n) => String(n).padStart(2, "0");
   const time = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
-  el.textContent = time;
+  if (elDashboard) elDashboard.textContent = time;
+  if (elLogin) elLogin.textContent = time;
 }
 
 /**
@@ -62,7 +109,7 @@ function updateSectorMoisture(sectorNumber, moistureLevel) {
   bar.style.width = `${moistureLevel}%`;
   bar.setAttribute(
     "data-moisture-level",
-    moistureLevel < 40 ? "low" : "normal",
+    moistureLevel < 40 ? "low" : moistureLevel < 65 ? "medium" : "high",
   );
   val.textContent = `${moistureLevel}%`;
 }
@@ -115,6 +162,7 @@ function updateLedProgramStatus(led, status) {
  * Updates the connection LED every 2 seconds.
  */
 function startConnectionLedMonitoring() {
+  initializeLEDs();
   const lConn = document.getElementById("led-connection");
   const lProg = document.getElementById("led-program");
   if (!lConn || !lProg) return;
@@ -195,10 +243,6 @@ function startFeedbackMonitoring() {
 // Global execution and window assignment
 updateTime();
 setInterval(updateTime, 1000);
-initializeLEDs();
-startFeedbackMonitoring();
-startMoistureMonitoring();
-startConnectionLedMonitoring();
 selectProgramMode();
 window.startProgram = startProgram;
 window.stopAllPrograms = stopAllPrograms;

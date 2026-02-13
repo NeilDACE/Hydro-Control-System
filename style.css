@@ -1,9 +1,15 @@
+/* #region LAYOUT CONTAINERS */
+/* ============================================
+   LAYOUT CONTAINERS
+   ============================================ */
+
 .content-area {
   min-height: 100vh;
+  display: none;
 }
 
 .login-area {
-  display: flex;
+  display: none;
   text-align: center;
   min-height: 100vh;
   background-color: #f0f2f5;
@@ -47,11 +53,37 @@
   align-items: center;
 }
 
-.login-main p {
-  margin-inline-start: 0;
-  margin-block-end: 20px;
-  font-size: 32px;
+.footer-container {
+  max-width: 1920px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-grow: 1;
+  flex-wrap: wrap;
+  padding: 0 20px;
 }
+
+.login-footer {
+  align-items: center;
+  justify-content: space-around;
+}
+
+.status-content {
+  display: flex;
+  gap: 50px;
+  flex-wrap: wrap;
+}
+
+.feedback {
+  color: red;
+  font-size: 0.8rem;
+}
+/* #endregion */
+
+/* #region LOGIN CARD */
+/* ============================================
+   LOGIN CARD
+   ============================================ */
 
 .login-card {
   background: linear-gradient(135deg, #0f172a 0%, #0b3b47 50%, #0f172a 100%);
@@ -61,6 +93,7 @@
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  height: 250px;
   width: 100%;
   max-width: 350px;
 }
@@ -88,27 +121,12 @@
 .login-card button:hover {
   background-color: #0056b3;
 }
+/* #endregion */
 
-.status-content {
-  display: flex;
-  gap: 50px;
-  flex-wrap: wrap;
-}
-
-.footer-container {
-  max-width: 1920px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-grow: 1;
-  flex-wrap: wrap;
-  padding: 0 20px;
-}
-
-.login-footer {
-  align-items: center;
-  justify-content: space-around;
-}
+/* #region BUTTON VARIANTS */
+/* ============================================
+   BUTTON VARIANTS
+   ============================================ */
 
 .btn-primary {
   background: linear-gradient(135deg, #15803d, #16a34a);
@@ -142,6 +160,12 @@
   transition: none;
   box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
 }
+/* #endregion */
+
+/* #region TIME & LED INDICATORS */
+/* ============================================
+   TIME & LED INDICATORS
+   ============================================ */
 
 .time-container {
   display: flex;
@@ -194,6 +218,12 @@
 .led-box p {
   font-weight: bold;
 }
+/* #endregion */
+
+/* #region MOISTURE DISPLAY */
+/* ============================================
+   MOISTURE DISPLAY
+   ============================================ */
 
 .sector-box {
   display: flex;
@@ -243,7 +273,11 @@
   background: linear-gradient(90deg, #dc2626, #ef4444);
 }
 
-.moisture-bar[data-moisture-level="normal"] {
+.moisture-bar[data-moisture-level="medium"] {
+  background: linear-gradient(90deg, #dc7e26, #ef9744);
+}
+
+.moisture-bar[data-moisture-level="high"] {
   background: linear-gradient(90deg, #0ea5e9, #38bdf8);
 }
 
@@ -255,6 +289,12 @@
   color: #000000;
   text-shadow: none;
 }
+/* #endregion */
+
+/* #region CONTROL PANELS */
+/* ============================================
+   CONTROL PANELS
+   ============================================ */
 
 .control-panel-container {
   border-radius: 20px;
@@ -323,6 +363,12 @@
   font-weight: 600;
   font-size: 14px;
 }
+/* #endregion */
+
+/* #region ANIMATIONS */
+/* ============================================
+   ANIMATIONS
+   ============================================ */
 
 @keyframes pulse-green {
   0%,
@@ -351,29 +397,29 @@
       inset 0 -1px 4px rgba(0, 0, 0, 0.2);
   }
 }
+/* #endregion */
+
+/* #region RESPONSIVE DESIGN */
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+
+@media (max-width: 1200px) {
+  .logo-title-container h1 {
+    display: none;
+  }
+  .footer-container {
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+    text-align: center;
+  }
+}
 
 @media (max-width: 768px) {
-  .header-container,
   .main-container,
   .footer-container {
     padding: 10px 12px;
-  }
-
-  header h1 {
-    font-size: 1.1rem;
-    text-align: center;
-  }
-
-  .nav-container {
-    flex-direction: column;
-    gap: 12px;
-    width: 100%;
-  }
-
-  nav {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
   }
 
   .main-container {
@@ -388,7 +434,6 @@
 
   .sector-box {
     min-width: 0;
-    width: 100%;
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
@@ -401,22 +446,30 @@
   .control-panel-container,
   .status-container,
   .soil-moisture-container {
-    width: 100%;
     box-sizing: border-box;
   }
 
   .feedback-container {
     padding: 12px;
   }
-
-  button {
-    width: 100%;
-  }
 }
 
 @media (max-width: 480px) {
-  header h1 {
-    font-size: 1rem;
+  body {
+    text-align: center;
+  }
+  .header-container {
+    flex-direction: column;
+    gap: 15px;
+  }
+  .nav-container {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  nav {
+    flex-direction: column;
+    gap: 15px;
   }
 
   .control-panel-container {
@@ -433,3 +486,4 @@
     height: 16px;
   }
 }
+/* #endregion */
