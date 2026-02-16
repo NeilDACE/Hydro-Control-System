@@ -95,7 +95,8 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   height: 250px;
   width: 100%;
-  max-width: 350px;
+  max-width: 280px;
+  margin-top: 20px;
 }
 
 .login-card input {
