@@ -140,7 +140,7 @@ function updateLedStatus(led, lastSeen) {
   if (!lastSeen) return;
   led.dataset.lastSeen = lastSeen;
   const diff = (Date.now() - new Date(lastSeen).getTime()) / 1000;
-  const isOnline = diff <= 10;
+  const isOnline = diff <= 1020;
   led.classList.toggle("led-green", isOnline);
   led.classList.toggle("led-red", !isOnline);
 }
