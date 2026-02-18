@@ -364,6 +364,14 @@
   font-weight: 600;
   font-size: 14px;
 }
+
+.success-text {
+  color: green;
+}
+
+.error-text {
+  color: red;
+}
 /* #endregion */
 
 /* #region ANIMATIONS */

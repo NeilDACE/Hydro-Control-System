@@ -180,6 +180,8 @@ function startConnectionLedMonitoring() {
  * Writes configuration and target state to Firebase.
  */
 function startProgram() {
+  const container = document.getElementById("feedbackMessage");
+  container.textContent = "Irrigation has started..."
   const mode = document.getElementById("program-select")?.value;
   const getV = (id) => Number(document.getElementById(id)?.value);
   let up = { "system/control/target_state": true };
@@ -203,6 +205,8 @@ function startProgram() {
  * Sets the target state to false in the database.
  */
 function stopAllPrograms() {
+  const container = document.getElementById("feedbackMessage");
+  container.textContent = "Irrigation was stopped..."
   update(ref(db), { "system/control/target_state": false }).catch(
     console.error,
   );
@@ -235,7 +239,7 @@ function startFeedbackMonitoring() {
   onValue(feedbackRef, (snapshot) => {
     const data = snapshot.val();
     if (!data) return;
-    container.textContent = data.feedback_msg || data.error_msg;
+    container.textContent = data.error_msg || data.feedback_msg;
     container.className = data.error_code !== 0 ? "error-text" : "success-text";
   });
 }
