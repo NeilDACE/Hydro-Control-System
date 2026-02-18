@@ -1,4 +1,6 @@
 Hydro-Control System 🪴💻
+<img width="1908" height="901" alt="Dashboard" src="https://github.com/user-attachments/assets/021443fe-e1a8-4f7a-b596-63c73d0e1944" />
+
 
 The Hydro-Control System is an intelligent, Raspberry Pi-based irrigation system that makes data-driven watering decisions. It was designed to reduce manual gardening while maintaining full control over environmental data.
 
