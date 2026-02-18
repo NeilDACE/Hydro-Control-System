@@ -1,42 +1,55 @@
 {
   "system": {
-    "moisture": 98,
     "connection": {
       "is_online": true,
-      "last_seen": "2026-02-04T15:10:00"
-    },
-    "settings": {
-      "program_type": "Automatik",
-      "manual_runtime_minutes": 15,
-      "thresholds": {
-        "on_moisture": 30,
-        "off_moisture": 85
-      }
+      "last_seen": "2026-02-18T22:53:54"
     },
     "control": {
-      "target_valve_state": false,
-      "current_valve_state": false
+      "current_state": false,
+      "target_state": false
+    },
+    "schedule": {
+      "monday": {
+        "slots": [
+          {
+            "end": "06:30",
+            "start": "06:00"
+          }
+        ]
+      }
+    },
+    "settings": {
+      "manual_runtime_minutes": 0,
+      "program_type": "manually",
+      "thresholds": {
+        "off_moisture": 1,
+        "on_moisture": 1
+      }
     },
     "status": {
       "error_code": 0,
-      "error_msg": "System läuft stabil",
+      "error_msg": "",
+      "feedback_msg": "System is running stably",
       "sectors": {
-        "s1": { "m": 45, "name": "Rasen" },
-        "s2": { "m": 52, "name": "Beet" },
-        "s3": { "m": 88, "name": "Hecke" },
-        "s4": { "m": 30, "name": "Topf" },
-        "s5": { "m": 12, "name": "Gewächshaus" },
-        "s6": { "m": 60, "name": "Eingang" }
+        "s1": {
+          "m": 100
+        },
+        "s2": {
+          "m": 100
+        },
+        "s3": {
+          "m": 100
+        },
+        "s4": {
+          "m": "Defective"
+        },
+        "s5": {
+          "m": 100
+        },
+        "s6": {
+          "m": 100
+        }
       }
-    },
-    "schedule": {
-      "monday": { "slots": [{ "start": "06:00", "end": "06:30" }] },
-      "tuesday": { "slots": [] },
-      "wednesday": { "slots": [] },
-      "thursday": { "slots": [] },
-      "friday": { "slots": [] },
-      "saturday": { "slots": [] },
-      "sunday": { "slots": [] }
     }
   }
 }
