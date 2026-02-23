@@ -6,14 +6,11 @@ import RPi.GPIO as GPIO
 from datetime import datetime
 
 
-# --- OUTSOURCED FUNCTIONS (Max 14 lines of core logic) ---
 def update_status(ref, code, msg, feedback):
-    """Updates the status branch in Firebase with dual messaging"""
     ref.update({"error_code": code, "error_msg": msg, "feedback_msg": feedback})
 
 
 def get_moisture_data(spi_dev, channel, dry, wet):
-    """Reads ADC via SPI, validates data range and returns moisture percentage"""
     try:
         adc = spi_dev.xfer2([1, (8 + channel) << 4, 0])
         raw = ((adc[1] & 3) << 8) + adc[2]
@@ -26,7 +23,6 @@ def get_moisture_data(spi_dev, channel, dry, wet):
 
 
 def set_watering_hardware(pump, valve, turn_on, on_val, off_val):
-    """Controls the relay sequence: valve first when opening, pump first when closing"""
     print(f"{datetime.now()}: Hardware {'START' if turn_on else 'STOP'}")
     if turn_on:
         GPIO.output(valve, on_val)
@@ -38,14 +34,19 @@ def set_watering_hardware(pump, valve, turn_on, on_val, off_val):
         GPIO.output(valve, off_val)
 
 
-# --- END OF OUTSOURCED SECTION ---
+# Global flag for instant remote triggering
+remote_triggered = False
 
-# Constants & GPIO Setup
+
+def signal_handler(event):
+    global remote_triggered
+    remote_triggered = True
+
+
 RELAY_PUMP, RELAY_VALVE = 17, 18
 DRY_VALUE, WET_VALUE = 684, 273
 ON, OFF = GPIO.HIGH, GPIO.LOW
 
-# Firebase Setup
 cred = credentials.Certificate("serviceAccountKey.json")
 firebase_admin.initialize_app(
     cred,
@@ -60,7 +61,9 @@ ref_sectors = db.reference("system/status/sectors")
 ref_conn = db.reference("system/connection")
 ref_status = db.reference("system/status")
 
-# Hardware Init
+# Real-time listener to reduce data polling
+ref_control.child("target_state").listen(signal_handler)
+
 spi = spidev.SpiDev()
 spi.open(0, 0)
 spi.max_speed_hz = 1350000
@@ -75,19 +78,23 @@ try:
     current_feedback = "System is running stably"
 
     while True:
+        remote_triggered = False
         valid_values, defective_sensors = [], []
+        sensor_updates = {}
 
-        # Sensor Loop
         for i in range(6):
             if i == 3:
                 continue
             val, status = get_moisture_data(spi, i, DRY_VALUE, WET_VALUE)
             if status == "OK":
-                ref_sectors.child(f"s{i + 1}").update({"m": val})
+                sensor_updates[f"s{i + 1}"] = {"m": val}
                 valid_values.append(val)
             else:
-                ref_sectors.child(f"s{i + 1}").update({"m": "Defective"})
+                sensor_updates[f"s{i + 1}"] = {"m": "Defective"}
                 defective_sensors.append(f"S{i + 1}")
+
+        # Batch update to minimize data usage
+        ref_sectors.update(sensor_updates)
 
         error_code = 1 if defective_sensors else 0
         error_msg = (
@@ -96,7 +103,6 @@ try:
             else ""
         )
 
-        # Get Firebase Updates
         control = ref_control.get() or {}
         settings = ref_settings.get() or {}
         target_state = control.get("target_state", False)
@@ -106,7 +112,6 @@ try:
         on_th = settings.get("thresholds", {}).get("on_moisture", 35)
         off_th = settings.get("thresholds", {}).get("off_moisture", 90)
 
-        # Main Control Logic
         if target_state:
             if prog_type == "manually":
                 current_feedback = "Manual watering active"
@@ -147,7 +152,6 @@ try:
                 ref_control.update({"current_state": False})
             current_feedback, manual_start_time = "System is running stably", None
 
-        # Updates & Connection Check
         update_status(ref_status, error_code, error_msg, current_feedback)
         ref_conn.update(
             {
@@ -156,9 +160,9 @@ try:
             }
         )
 
-        # Watchdog for target_state change
-        for _ in range(60):
-            if ref_control.child("target_state").get() != target_state:
+        # Efficient wait loop: breaks immediately on remote interaction
+        for _ in range(300):
+            if remote_triggered:
                 break
             time.sleep(1)
 
