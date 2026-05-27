@@ -10,7 +10,7 @@ import {
   onValue,
   update,
 } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-database.js";
-import firebaseConfig from "config.js";
+import firebaseConfig from "./config.js";
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -244,9 +244,23 @@ function startFeedbackMonitoring() {
   });
 }
 
+/**
+ * Registers the service worker so the app becomes installable as a PWA.
+ */
+function registerServiceWorker() {
+  if (!("serviceWorker" in navigator)) return;
+
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js").catch((error) => {
+      console.error("Service Worker registration failed:", error);
+    });
+  });
+}
+
 // Global execution and window assignment
 updateTime();
 setInterval(updateTime, 1000);
 selectProgramMode();
+registerServiceWorker();
 window.startProgram = startProgram;
 window.stopAllPrograms = stopAllPrograms;
