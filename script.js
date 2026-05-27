@@ -2,7 +2,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.8.0/firebas
 import {
   getAuth,
   onAuthStateChanged,
-  signInWithEmailAndPassword
+  signInWithEmailAndPassword,
 } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-auth.js";
 import {
   getDatabase,
@@ -10,7 +10,7 @@ import {
   onValue,
   update,
 } from "https://www.gstatic.com/firebasejs/12.8.0/firebase-database.js";
-import firebaseConfig from "/config.js";
+import firebaseConfig from "config.js";
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -67,10 +67,10 @@ if (logoutBtn) {
  * Starts all realtime data monitors after a successful login.
  */
 function loadData() {
-    startMoistureMonitoring();
-    startConnectionLedMonitoring();
-    startFeedbackMonitoring();
-    updateTime();
+  startMoistureMonitoring();
+  startConnectionLedMonitoring();
+  startFeedbackMonitoring();
+  updateTime();
 }
 
 /**
@@ -181,7 +181,7 @@ function startConnectionLedMonitoring() {
  */
 function startProgram() {
   const container = document.getElementById("feedbackMessage");
-  container.textContent = "Irrigation has started..."
+  container.textContent = "Irrigation has started...";
   const mode = document.getElementById("program-select")?.value;
   const getV = (id) => Number(document.getElementById(id)?.value);
   let up = { "system/control/target_state": true };
@@ -206,7 +206,7 @@ function startProgram() {
  */
 function stopAllPrograms() {
   const container = document.getElementById("feedbackMessage");
-  container.textContent = "Irrigation was stopped..."
+  container.textContent = "Irrigation was stopped...";
   update(ref(db), { "system/control/target_state": false }).catch(
     console.error,
   );
