@@ -2,7 +2,7 @@
   "id": "/",
   "name": "Hydro-Control-System",
   "short_name": "H-C-System",
-  "start_url": "/index.html",
+  "start_url": "/projects/hydro_control_system/index.html",
   "scope": "/",
   "icons": [
     {
